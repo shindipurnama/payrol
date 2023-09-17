@@ -321,11 +321,8 @@
 
     function getData() {
         $.ajax({
-            data: {
-                phone: dataLocal.phone,
-            },
-            url: baseUrl + "forms/get",
-            method: 'POST',
+            url: "/staff/get",
+            method: 'GET',
             success: function(result) {
                 console.log(JSON.parse(result));
                 var result = JSON.parse(result);
@@ -547,7 +544,7 @@
     }
 
     KTUtil.onDOMContentLoaded(function() {
-        showDataTable()
+        getData()
         handleSearchDatatable()
         handleDeleteRows()
     })

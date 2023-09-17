@@ -48,7 +48,7 @@
                                 <!--begin::Username-->
                                 <div class="d-flex flex-column">
                                     <div class="fw-bolder d-flex align-items-center fs-5">{{ Auth::user()->name }}</div>
-                                    <a href="#" class="fw-bold text-muted text-hover-primary fs-7">Staff Payroll</a>
+                                    <a href="#" class="fw-bold text-muted text-hover-primary fs-7">{{ Auth::user()->position }}</a>
                                 </div>
                                 <!--end::Username-->
                             </div>

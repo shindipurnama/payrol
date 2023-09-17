@@ -30,6 +30,8 @@ Auth::routes();
 Route::middleware(['auth'])->group(function () {
     Route::resource('/dashboard', DashboardController::class);
     Route::resource('/staff', StaffController::class);
+    Route::resource('/staff/get', StaffController::class);
+    
     Route::resource('/absence', AbsenceController::class);
     Route::resource('/permission', PermissionController::class);
     Route::resource('/overtime', OvertimeController::class);
