@@ -26,3 +26,7 @@ Route::get('/permission', [PermissionController::class, 'index']);
 Route::get('/overtime', [OvertimeController::class, 'index']);
 Route::get('/payroll', [PayrollController::class, 'index']);
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

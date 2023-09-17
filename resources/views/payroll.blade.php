@@ -60,14 +60,10 @@
                         <thead>
                             <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
                                 <th class="min-w-125px">Nama</th>
-                                <th class="min-w-125px">TTL</th>
-                                <th class="min-w-70px">L / P</th>
+                                <th class="min-w-125px">Periode</th>
                                 <th class="min-w-125px">Jabatan</th>
                                 <th class="min-w-125px">Status</th>
-                                <th class="min-w-125px">Gaji Pokok</th>
-                                <th class="min-w-125px">Tunjangan</th>
-                                <th class="min-w-125px">BPJS</th>
-                                <th class="min-w-125px">Tgl. Masuk</th>
+                                <th class="min-w-125px">Total Gaji</th>
                                 <th class="min-w-70px">Aksi</th>
                             </tr>
                         </thead>
@@ -100,8 +96,12 @@
                 </div>
                 <div class="modal-body py-10 px-10">
                     <div class="fv-row mb-7">
-                        <label class="required fs-6 fw-bold mb-2">Pilih Bulan</label>
+                        <label class="required fs-6 fw-bold mb-2">Pilih Periode</label>
                         <input type="month" onfocus="this.showPicker()" class="form-control form-control-solid" placeholder="" id="txtDateInsert" autocomplete="off" />
+                    </div>
+                    <div class="fv-row mb-7">
+                        <label class="required fs-6 fw-bold mb-2">Jumlah Hari Libur</label>
+                        <input type="text" class="form-control form-control-solid" placeholder="" id="txtDayOffInsert" autocomplete="off" oninput="this.value=this.value.replace(/[^0-9]/g,'');" />
                     </div>
                 </div>
                 <div class="modal-footer flex-center">
@@ -128,71 +128,23 @@
     var resultData = [{
             code: "1",
             name: "Muhammad Teguh",
-            place_birth: "Gresik",
-            date_birth: "2000-01-30",
-            gender: "L",
+            month: "Agustus 2023",
             position: "Supervisor",
             status: "Tetap",
-            basic_salary: "7000000",
-            subsidy: "3000000",
-            bpjs: "5000000",
-            date_join: "2020-03-03",
+            total_salary: "7000000",
         },
         {
             code: "2",
             name: "Shindi Purnama",
-            place_birth: "Surabaya",
-            date_birth: "2000-03-03",
-            gender: "P",
+            month: "Agustus 2023",
             position: "Staff",
             status: "Kontrak",
-            basic_salary: "5000000",
-            subsidy: "1000000",
-            bpjs: "2000000",
-            date_join: "2021-09-05",
+            total_salary: "5000000",
         },
     ]
     var table
-    var start = moment().startOf('month')
-    var end = moment()
-    var dateStart, dateEnd;
-    moment.locale('id')
-
-    $("#kt_daterangepicker_1").daterangepicker({
-        "startDate": start,
-        "endDate": end,
-        "maxDate": end,
-        "maxSpan": {
-            "days": 31
-        },
-        "locale": {
-            "format": "DD MMM YYYY",
-            "applyLabel": "Gunakan",
-            "cancelLabel": "Batal",
-            "fromLabel": "Dari",
-            "toLabel": "Sampai",
-            "customRangeLabel": "Custom",
-        },
-        "ranges": {
-            'Hari Ini': [moment(), moment()],
-            'Kemarin': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-            '7 Hari Lalu': [moment().subtract(7, 'days'), moment()],
-            '30 Hari Lalu': [moment().subtract(30, 'days'), moment()],
-            'Minggu Ini': [moment().startOf('isoWeek'), moment().endOf('isoWeek')],
-            'Bulan Ini': [moment().startOf('month'), moment().endOf('month')],
-            'Minggu Lalu': [moment().subtract(1, 'week').startOf('isoWeek'), moment().subtract(1, 'week').endOf('isoWeek')],
-            'Bulan Lalu': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-        },
-    }, function(start, end, label) {
-        showDataTable()
-    });
 
     function getData() {
-        let start = $('#kt_daterangepicker_1').data('daterangepicker').startDate.format('YYYY-MM-DD')
-        let end = $('#kt_daterangepicker_1').data('daterangepicker').endDate.format('YYYY-MM-DD')
-        dateStart = moment(start).format('DD MMMM YYYY');
-        dateEnd = moment(end).format('DD MMMM YYYY');
-
         $.ajax({
             data: {
                 phone: dataLocal.phone,
@@ -214,23 +166,19 @@
 
     function showDataTable() {
         console.log(resultData)
-        // table = $("#kt_dataTable").DataTable()
         table = $("#kt_dataTable").DataTable({
             "searchDelay": 500,
             "processing": true,
             "destroy": true,
             "order": [
-                [8, 'desc']
+                [0, 'desc']
             ],
             "data": resultData,
             "columns": [{
                     data: 'name'
                 },
                 {
-                    data: 'place_birth'
-                },
-                {
-                    data: 'gender'
+                    data: 'month'
                 },
                 {
                     data: 'position'
@@ -239,47 +187,15 @@
                     data: 'status'
                 },
                 {
-                    data: 'basic_salary'
-                },
-                {
-                    data: 'subsidy'
-                },
-                {
-                    data: 'bpjs'
-                },
-                {
-                    data: 'date_join'
+                    data: 'total_salary'
                 },
                 {
                     data: 'code'
                 },
             ],
-            "columnDefs": [{
-                    targets: 1,
-                    render: function(data, type, row) {
-                        return `<span>${data}, ${moment(row.date_birth).format('DD MMM YYYY')}</span>`
-                    }
-                },
+            "columnDefs": [
                 {
-                    targets: 8,
-                    render: function(data, type, row) {
-                        return `<span>${moment(data).format('DD MMM YYYY')}</span>`
-                    }
-                },
-                {
-                    targets: 5,
-                    render: function(data, type, row) {
-                        return `<span>${number_format(parseInt(data), 0, ',', '.')}</span>`
-                    }
-                },
-                {
-                    targets: 6,
-                    render: function(data, type, row) {
-                        return `<span>${number_format(parseInt(data), 0, ',', '.')}</span>`
-                    }
-                },
-                {
-                    targets: 7,
+                    targets: 4,
                     render: function(data, type, row) {
                         return `<span>${number_format(parseInt(data), 0, ',', '.')}</span>`
                     }
@@ -296,21 +212,8 @@
                         </button>
                         <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4" data-kt-menu="true">
                             <div class="menu-item px-3">
-                                <a class="menu-link" data-code="${row.code}" data-name="${row.name}" id="optionEdit">
-                                    <span class="fas fa-pen fs-3 menu-icon"></span>
-                                    <span class="menu-title">Ubah</span>
-                                </a>
-                            </div>
-                            <div class="menu-item px-3">
-                                <a href="#" class="menu-link" data-kt-forms-table-filter="delete_row" data-code="${row.code}" >
-                                    <span class="fas fa-trash fs-3 menu-icon"></span>
-                                    <span class="menu-title">Hapus</span>
-                                </a>
-                            </div>
-                            <div class="menu-item px-3">
-                                <a href="#" class="menu-link" data-kt-forms-table-filter="copy_row" data-row="${btoa(unescape(encodeURIComponent(JSON.stringify(row))))}" >
-                                    <span class="fas fa-copy fs-3 menu-icon"></span>
-                                    <span class="menu-title">Salin</span>
+                                <a href="#" class="menu-link" data-row="${btoa(JSON.stringify(row))}" id="optionDetail">
+                                    <span class="menu-title">Detail</span>
                                 </a>
                             </div>
                         </div>
@@ -327,7 +230,6 @@
         KTMenu.createInstances();
     }
 
-    // Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
     var handleSearchDatatable = function() {
         const filterSearch = document.querySelector('[data-kt-forms-table-filter="search"]');
         filterSearch.addEventListener('keyup', function(e) {
@@ -338,6 +240,20 @@
     KTUtil.onDOMContentLoaded(function() {
         showDataTable()
         handleSearchDatatable()
+    })
+
+    $(document).ready(function() {
+        $(document).on("click", "#optionDetail", function(e) {
+            e.preventDefault()
+            var row = JSON.parse(atob($(this).data('row')));
+            console.log(row)
+            $("#txtDateUpdate").val(row.date)
+            $("#txtTimeStartUpdate").val(row.time_start)
+            $("#txtTimeEndUpdate").val(row.time_end)
+            $("#txtDurationUpdate").val(row.duration)
+            $("#txtNotesUpdate").val(row.notes)
+            $("#modal_update_data").modal("show")
+        })
     })
 </script>
 
