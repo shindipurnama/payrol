@@ -23,7 +23,7 @@ class StaffController extends Controller
      */
     public function get()
     {
-        echo "lasa";
+        dd("Aasas");
         exit;
     }
 

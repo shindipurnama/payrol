@@ -28,12 +28,13 @@ Auth::routes();
 
 
 Route::middleware(['auth'])->group(function () {
-    Route::resource('/dashboard', DashboardController::class);
-    Route::resource('/staff', StaffController::class);
-    Route::resource('/staff/get', StaffController::class);
+    Route::get('/dashboard', [DashboardController::class, 'index']);
     
-    Route::resource('/absence', AbsenceController::class);
-    Route::resource('/permission', PermissionController::class);
-    Route::resource('/overtime', OvertimeController::class);
-    Route::resource('/payroll', PayrollController::class);
+    Route::get('/staff', [StaffController::class, 'index']);
+    Route::get('/staff/get', [StaffController::class, 'get']);
+
+    Route::get('/absence', [AbsenceController::class, 'index']);
+    Route::get('/permission', [PermissionController::class, 'index']);
+    Route::get('/overtime', [OvertimeController::class, 'index']);
+    Route::get('/payroll', [PayrollController::class, 'index']);
 });
