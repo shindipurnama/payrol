@@ -57,7 +57,7 @@
                 </div>
                 <div class="col-md-4">
                     <!--begin::Statistics Widget 5-->
-                    <a href="#" class="card bg-danger hoverable card-xl-stretch mb-5 mb-xl-8" id="failedCard">
+                    <div class="card bg-danger card-xl-stretch mb-5 mb-xl-8" id="failedCard">
                         <!--begin::Body-->
                         <div class="card-body">
                             <i class="fas fa-solid fa-user-plus text-gray-100 fs-1"></i>
@@ -65,7 +65,7 @@
                             <div class="fw-bold text-gray-100">Staff Lembur</div>
                         </div>
                         <!--end::Body-->
-                    </a>
+                    </div>
                     <!--end::Statistics Widget 5-->
                 </div>
             </div>

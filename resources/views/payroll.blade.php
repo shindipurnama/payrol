@@ -117,6 +117,66 @@
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="modal_detail" tabindex="-1" aria-modal="true" role="dialog">
+    <div class="modal-dialog mw-650px">
+        <div class="modal-content">
+            <div class="modal-header pb-0 border-0 justify-content-end">
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <span class="svg-icon svg-icon-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="black"></rect>
+                            <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="black"></rect>
+                        </svg>
+                    </span>
+                </div>
+            </div>
+
+            <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
+                <div class="text-center mb-13">
+                    <h3 class="fw-bold mb-1" id="txtPeriod"></h3>
+                    <h1 class="mb-1" id="txtName"></h1>
+                    <div class="text-muted fw-bold fs-5" id="txtPosition"></div>
+                </div>
+                <div class="d-flex flex-stack p-2">
+                    <span class="text-gray-400 fs-5 fw-bolder lh-0">Gaji Pokok</span>
+                    <span class="text-gray-400 fw-bold" id="txtSalary"></span>
+                </div>
+                <div class="separator separator-dashed my-4"></div>
+                <div class="d-flex flex-stack p-2">
+                    <span class="text-gray-400 fs-5 fw-bolder lh-0">Izin</span>
+                    <span class="text-gray-400 fw-bold" id="txtPermission"></span>
+                </div>
+                <div class="separator separator-dashed my-4"></div>
+                <div class="d-flex flex-stack p-2">
+                    <span class="text-gray-400 fs-5 fw-bolder lh-0">Lembur</span>
+                    <span class="text-gray-400 fw-bold" id="txtOvertime"></span>
+                </div>
+                <div class="separator separator-dashed my-4"></div>
+                <div class="d-flex flex-stack p-2">
+                    <span class="text-gray-400 fs-5 fw-bolder lh-0">Tunjangan</span>
+                    <span class="text-gray-400 fw-bold" id="txtSubsidy"></span>
+                </div>
+                <div class="separator separator-dashed my-4"></div>
+                <div class="d-flex flex-stack p-2">
+                    <span class="text-gray-400 fs-5 fw-bolder lh-0">BPJS</span>
+                    <span class="text-gray-400 fw-bold" id="txtBpjs"></span>
+                </div>
+                <div class="separator separator-dashed my-4"></div>
+                <div class="d-flex flex-stack p-2">
+                    <span class="text-gray-400 fs-5 fw-bolder lh-0">Intensif</span>
+                    <span class="text-gray-400 fw-bold" id="txtIntensif"></span>
+                </div>
+                <div class="separator separator-dashed my-4"></div>
+                <div class="d-flex flex-stack p-2">
+                    <span class="text-gray-800 fs-5 fw-bolder">Total Gaji</span>
+                    <span class="text-gray-800 fs-5 fw-bolder" id="txtTotalSalary"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script src="{{ asset('asset/plugins/global/plugins.bundle.js') }}"></script>
 <script src="{{ asset('asset/js/scripts.bundle.js') }}"></script>
@@ -131,7 +191,15 @@
             month: "Agustus 2023",
             position: "Supervisor",
             status: "Tetap",
+            basic_salary: "5000000",
             total_salary: "7000000",
+            qty_permission: "1",
+            total_permission: "100000",
+            total_overtime: "0",
+            overtime: "100000",
+            subsidy: "500000",
+            bpjs: "150000",
+            intensif: "100000"
         },
         {
             code: "2",
@@ -139,7 +207,15 @@
             month: "Agustus 2023",
             position: "Staff",
             status: "Kontrak",
+            basic_salary: "4000000",
             total_salary: "5000000",
+            qty_permission: "1",
+            total_permission: "100000",
+            total_overtime: "0",
+            overtime: "100000",
+            subsidy: "500000",
+            bpjs: "150000",
+            intensif: "100000"
         },
     ]
     var table
@@ -193,8 +269,7 @@
                     data: 'code'
                 },
             ],
-            "columnDefs": [
-                {
+            "columnDefs": [{
                     targets: 4,
                     render: function(data, type, row) {
                         return `<span>${number_format(parseInt(data), 0, ',', '.')}</span>`
@@ -247,12 +322,17 @@
             e.preventDefault()
             var row = JSON.parse(atob($(this).data('row')));
             console.log(row)
-            $("#txtDateUpdate").val(row.date)
-            $("#txtTimeStartUpdate").val(row.time_start)
-            $("#txtTimeEndUpdate").val(row.time_end)
-            $("#txtDurationUpdate").val(row.duration)
-            $("#txtNotesUpdate").val(row.notes)
-            $("#modal_update_data").modal("show")
+            $("#txtName").text(row.name)
+            $("#txtPeriod").text(row.month)
+            $("#txtPosition").text(row.position + " (" + row.status + ")")
+            $("#txtTotalSalary").text(number_format(parseInt(row.total_salary), 0, ',', '.'))
+            $("#txtSalary").text(number_format(parseInt(row.basic_salary), 0, ',', '.'))
+            $("#txtPermission").text("("+row.qty_permission+") "+number_format(parseInt(row.total_permission), 0, ',', '.'))
+            $("#txtOvertime").text(number_format(parseInt(row.total_overtime), 0, ',', '.'))
+            $("#txtSubsidy").text(number_format(parseInt(row.subsidy), 0, ',', '.'))
+            $("#txtBpjs").text(number_format(parseInt(row.bpjs), 0, ',', '.'))
+            $("#txtIntensif").text(number_format(parseInt(row.intensif), 0, ',', '.'))
+            $("#modal_detail").modal("show")
         })
     })
 </script>

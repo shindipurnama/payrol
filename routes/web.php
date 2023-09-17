@@ -19,14 +19,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/dashboard', [DashboardController::class, 'index']);
-Route::get('/staff', [StaffController::class, 'index']);
-Route::get('/absence', [AbsenceController::class, 'index']);
-Route::get('/permission', [PermissionController::class, 'index']);
-Route::get('/overtime', [OvertimeController::class, 'index']);
-Route::get('/payroll', [PayrollController::class, 'index']);
 
-
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index']);
+Route::get('/', function() {
+    return view("auth/login");
+});
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('home');
+    Route::get('/staff', [StaffController::class, 'index']);
+    Route::get('/absence', [AbsenceController::class, 'index']);
+    Route::get('/permission', [PermissionController::class, 'index']);
+    Route::get('/overtime', [OvertimeController::class, 'index']);
+    Route::get('/payroll', [PayrollController::class, 'index']);
+});

@@ -37,7 +37,7 @@
                         </span>
                         <!--end::Svg Icon-->
                         <!--begin::Username-->
-                        <div class="fw-bolder d-flex align-items-center fs-5 text-dark ms-2 menu-title" id="txtNameHeader">Muhammad Teguh</div>
+                        <div class="fw-bolder d-flex align-items-center fs-5 text-dark ms-2 menu-title" id="txtNameHeader">{{ Auth::user()->name }}</div>
                         <!--end::Username-->
                     </div>
                     <!--begin::User account menu-->
@@ -47,7 +47,7 @@
                             <div class="menu-content d-flex align-items-center px-3">
                                 <!--begin::Username-->
                                 <div class="d-flex flex-column">
-                                    <div class="fw-bolder d-flex align-items-center fs-5">Muhammad Teguh</div>
+                                    <div class="fw-bolder d-flex align-items-center fs-5">{{ Auth::user()->name }}</div>
                                     <a href="#" class="fw-bold text-muted text-hover-primary fs-7">Staff Payroll</a>
                                 </div>
                                 <!--end::Username-->
@@ -59,9 +59,14 @@
                         <!--end::Menu separator-->
                         <!--begin::Menu item-->
                         <div class="menu-item px-5">
-                            <a class="menu-link px-5" id="btnLogout"><span class="fas fa-sign-out-alt fs-4 menu-icon"></span>
+                            <a class="menu-link px-5" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <span class="fas fa-sign-out-alt fs-4 menu-icon"></span>
                                 <span class="menu-title">Keluar</span>
                             </a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
                         </div>
                     </div>
                     <!--end::User account menu-->
