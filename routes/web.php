@@ -37,4 +37,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/permission', [PermissionController::class, 'index']);
     Route::get('/overtime', [OvertimeController::class, 'index']);
     Route::get('/payroll', [PayrollController::class, 'index']);
+    Route::get('/payroll/create', [PayrollController::class, 'create']);
 });

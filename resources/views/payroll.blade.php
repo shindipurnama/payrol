@@ -82,7 +82,8 @@
 <div class="modal fade" id="modal_generate_data" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form class="form" action="#" id="modal_generate_data_form">
+            <form class="form" action="payroll/create" id="modal_generate_data_form">
+			    {{ @csrf_field() }}
                 <div class="modal-header" id="modal_generate_data_header">
                     <h2 class="fw-bolder">Form Generate Gaji</h2>
                     <div id="modal_generate_data_close" class="btn btn-icon btn-sm btn-active-icon-primary">
@@ -93,15 +94,15 @@
                             </svg>
                         </span>
                     </div>
-                </div>
+                </div>                
                 <div class="modal-body py-10 px-10">
                     <div class="fv-row mb-7">
                         <label class="required fs-6 fw-bold mb-2">Pilih Periode</label>
-                        <input type="month" onfocus="this.showPicker()" class="form-control form-control-solid" placeholder="" id="txtDateInsert" autocomplete="off" />
+                        <input type="month" name="month" onfocus="this.showPicker()" class="form-control form-control-solid" placeholder="" id="txtDateInsert" autocomplete="off" />
                     </div>
                     <div class="fv-row mb-7">
                         <label class="required fs-6 fw-bold mb-2">Jumlah Hari Libur</label>
-                        <input type="text" class="form-control form-control-solid" placeholder="" id="txtDayOffInsert" autocomplete="off" oninput="this.value=this.value.replace(/[^0-9]/g,'');" />
+                        <input type="text" class="form-control form-control-solid" name="day_off" placeholder="" id="txtDayOffInsert" autocomplete="off" oninput="this.value=this.value.replace(/[^0-9]/g,'');" />
                     </div>
                 </div>
                 <div class="modal-footer flex-center">
